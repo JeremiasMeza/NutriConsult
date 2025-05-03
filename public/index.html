@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>NutriConsult</title>
+  
+  <!-- Tailwind CSS desde CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32',
+            secondary: '#1565C0',
+            accent: '#F57C00',
+            error: '#D32F2F',
+            success: '#388E3C'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100">
+  <div class="max-w-4xl mx-auto my-8 bg-white rounded-lg shadow-md p-6">
+    <h1 class="text-3xl font-bold text-primary mb-2">Bienvenido a NutriConsult</h1>
+    <p class="text-gray-600 mb-6">Aplicación de escritorio para nutricionistas</p>
+    
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-3">Pacientes</h2>
+      <button id="cargarPacientes" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors">
+        Cargar Pacientes
+      </button>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white">
+        <thead>
+          <tr class="bg-gray-50 border-b">
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apellidos</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teléfono</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpoTablaPacientes" class="divide-y divide-gray-200">
+          <!-- Los pacientes se cargarán aquí -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Cargar los datos de los pacientes
+    document.getElementById('cargarPacientes').addEventListener('click', async () => {
+      try {
+        const pacientes = await window.ipcRenderer.invoke('get-pacientes');
+        const tbody = document.getElementById('cuerpoTablaPacientes');
+        tbody.innerHTML = '';
+        
+        if (pacientes.length === 0) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+              No se encontraron pacientes
+            </td>
+          `;
+          tbody.appendChild(row);
+        } else {
+          pacientes.forEach(paciente => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-gray-50';
+            row.innerHTML = `
+              <td class="px-6 py-4 whitespace-nowrap">${paciente.nombre}</td>
+              <td class="px-6 py-4 whitespace-nowrap">${paciente.apellidos}</td>
+              <td class="px-6 py-4 whitespace-nowrap">${paciente.telefono || '-'}</td>
+              <td class="px-6 py-4 whitespace-nowrap">${paciente.email || '-'}</td>
+              <td class="px-6 py-4 whitespace-nowrap space-x-2">
+                <button class="text-secondary hover:text-secondary/80">Ver</button>
+                <button class="text-primary hover:text-primary/80">Editar</button>
+                <button class="text-error hover:text-error/80">Eliminar</button>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
+        }
+      } catch (error) {
+        console.error('Error al cargar pacientes:', error);
+        alert('Error al cargar pacientes: ' + error.message);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Modelos básicos para comenzar
+model Usuario {
+  id              Int       @id @default(autoincrement())
+  nombreUsuario   String    @unique
+  contrasena      String
+  nombre          String
+  apellidos       String
+  especialidad    String?
+  numeroRegistro  String?
+  email           String?
+  telefono        String?
+  pacientes       Paciente[]
+}
+
+model Paciente {
+  id              Int       @id @default(autoincrement())
+  nombre          String
+  apellidos       String
+  fechaNac        DateTime?
+  genero          String?
+  telefono        String?
+  email           String?
+  direccion       String?
+  nutricionistaId Int
+  nutricionista   Usuario   @relation(fields: [nutricionistaId], references: [id])
+}
