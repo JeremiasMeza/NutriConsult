@@ -1,0 +1,56 @@
+.nutri-login-form-container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+.nutri-login-form-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.nutri-login-form-container p {
+    margin-bottom: 15px;
+}
+.nutri-login-form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.nutri-login-form-container input[type="email"],
+.nutri-login-form-container input[type="password"],
+.nutri-login-form-container input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-sizing: border-box; /* Makes width include padding and border */
+}
+.nutri-login-form-container input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #0073aa; /* WordPress blue */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.nutri-login-form-container input[type="submit"]:hover {
+    background-color: #005a87;
+}
+.nutri-login-error {
+    color: red;
+    border: 1px solid red;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #ffe0e0;
+}
+.nutri-login-success {
+    color: green;
+    border: 1px solid green;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #e0ffe0;
+}
